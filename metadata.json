@@ -1,0 +1,6 @@
+{
+  "name": "ATELIER - Prêt-à-Porter & Maroquinerie",
+  "description": "Boutique en ligne premium de vêtements et maroquinerie haut de gamme avec architecture headless WooCommerce.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
