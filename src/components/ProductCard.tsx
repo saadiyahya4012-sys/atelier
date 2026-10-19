@@ -27,7 +27,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
     }, 800);
   };
 
-  const imageSrc = product.images[0]?.src || '/src/assets/images/product_wool_coat_1792259932706.jpg';
+  const imageSrc = product.images[0]?.src || '/images/product_wool_coat_1792259932706.jpg';
 
   return (
     <div

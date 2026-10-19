@@ -149,7 +149,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onProceedToCheckout }) =
                 <div key={item.id} className="py-4 flex gap-4">
                   {/* Thumbnail */}
                   <img
-                    src={item.product.images[0]?.src || '/src/assets/images/prod_cashmere_overcoat_1792324545026.jpg'}
+                    src={item.product.images[0]?.src || '/images/prod_cashmere_overcoat_1792324545026.jpg'}
                     alt={item.product.name}
                     className="w-20 h-24 object-cover bg-[#EFECE6] border border-[#E8E4DC] shrink-0"
                   />

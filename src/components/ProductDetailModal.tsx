@@ -102,9 +102,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const galleryImages = product.images.length > 1
     ? product.images
     : [
-        product.images[0] || { id: 1, src: '/src/assets/images/prod_cashmere_overcoat_1792324545026.jpg', alt: product.name },
-        { id: 2, src: '/src/assets/images/prod_silk_blouse_1792324546779.jpg', alt: 'Vue portée éditoriale' },
-        { id: 3, src: '/src/assets/images/cat_nouveautes_fabric_1792324525877.jpg', alt: 'Détail de matière et tissage' }
+        product.images[0] || { id: 1, src: '/images/prod_cashmere_overcoat_1792324545026.jpg', alt: product.name },
+        { id: 2, src: '/images/prod_silk_blouse_1792324546779.jpg', alt: 'Vue portée éditoriale' },
+        { id: 3, src: '/images/cat_nouveautes_fabric_1792324525877.jpg', alt: 'Détail de matière et tissage' }
       ];
 
   const currentImage = galleryImages[activeImageIndex] || galleryImages[0];

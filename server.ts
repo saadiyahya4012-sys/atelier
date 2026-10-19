@@ -165,7 +165,7 @@ let ordersDatabase: Order[] = [
         total: 890,
         size: "38",
         color: "Camel",
-        image: "/src/assets/images/prod_cashmere_overcoat_1792324545026.jpg"
+        image: "/images/prod_cashmere_overcoat_1792324545026.jpg"
       },
       {
         id: 2,
@@ -176,7 +176,7 @@ let ordersDatabase: Order[] = [
         total: 360,
         size: "S",
         color: "Ivoire",
-        image: "/src/assets/images/prod_silk_blouse_1792324546779.jpg"
+        image: "/images/prod_silk_blouse_1792324546779.jpg"
       }
     ]
   },
@@ -223,7 +223,7 @@ let ordersDatabase: Order[] = [
         total: 520,
         size: "42",
         color: "Noir Ébène",
-        image: "/src/assets/images/prod_chelsea_boots_1792324546289.jpg"
+        image: "/images/prod_chelsea_boots_1792324546289.jpg"
       }
     ]
   }
@@ -322,7 +322,7 @@ app.get('/api/products', async (req: Request, res: Response) => {
               categories: (p.categories || []).map((c: any) => ({ id: c.id, name: c.name, slug: c.slug })),
               images: (p.images && p.images.length > 0)
                 ? p.images.map((im: any) => ({ id: im.id, src: im.src, alt: im.alt || p.name }))
-                : [{ id: 1, src: '/src/assets/images/prod_cashmere_overcoat_1792324545026.jpg', alt: p.name }],
+                : [{ id: 1, src: '/images/prod_cashmere_overcoat_1792324545026.jpg', alt: p.name }],
               attributes: (p.attributes || []).map((a: any) => ({ name: a.name, options: a.options || [] })),
               material: p.meta_data?.find((m: any) => m.key === 'material')?.value || 'Étoffe noble sélectionnée',
               origin: p.meta_data?.find((m: any) => m.key === 'origin')?.value || 'Atelier certifié',
@@ -988,7 +988,7 @@ app.post('/api/admin/products', requireAdminAuth, (req: Request, res: Response) 
       stock_status: parsedStock > 0 ? 'instock' : 'outofstock',
       status: status === 'draft' ? 'draft' : 'publish',
       categories: Array.isArray(categories) && categories.length > 0 ? categories : [{ id: 1, name: 'Femme', slug: 'femme' }],
-      images: Array.isArray(images) && images.length > 0 ? images : [{ id: 1, src: '/src/assets/images/product_wool_coat_1792259932706.jpg', alt: name }],
+      images: Array.isArray(images) && images.length > 0 ? images : [{ id: 1, src: '/images/product_wool_coat_1792259932706.jpg', alt: name }],
       attributes: Array.isArray(attributes) ? attributes : [
         { name: 'Taille', options: ['S', 'M', 'L'] },
         { name: 'Couleur', options: ['Noir', 'Crème'] }

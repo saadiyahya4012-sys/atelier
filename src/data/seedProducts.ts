@@ -26,7 +26,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1001,
-        src: "/src/assets/images/prod_cashmere_overcoat_1792324545026.jpg",
+        src: "/images/prod_cashmere_overcoat_1792324545026.jpg",
         alt: "Manteau double boutonnage camel en cachemire et laine"
       }
     ],
@@ -66,7 +66,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1002,
-        src: "/src/assets/images/prod_silk_blouse_1792324546779.jpg",
+        src: "/images/prod_silk_blouse_1792324546779.jpg",
         alt: "Chemise fluide en soie ivoire drapée"
       }
     ],
@@ -106,7 +106,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1003,
-        src: "/src/assets/images/prod_chelsea_boots_1792324546289.jpg",
+        src: "/images/prod_chelsea_boots_1792324546289.jpg",
         alt: "Bottines Chelsea noires artisanales en cuir pleine fleur"
       }
     ],
@@ -146,7 +146,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1004,
-        src: "/src/assets/images/prod_leather_tote_1792324546443.jpg",
+        src: "/images/prod_leather_tote_1792324546443.jpg",
         alt: "Sac cabas minimaliste en cuir grainé espresso"
       }
     ],
@@ -186,7 +186,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1005,
-        src: "/src/assets/images/prod_tailored_pants_1792324562053.jpg",
+        src: "/images/prod_tailored_pants_1792324562053.jpg",
         alt: "Pantalon tailleur ivoire à pinces en laine froide"
       }
     ],
@@ -226,7 +226,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1006,
-        src: "/src/assets/images/prod_knit_turtleneck_1792324562877.jpg",
+        src: "/images/prod_knit_turtleneck_1792324562877.jpg",
         alt: "Pull col roulé en cachemire épais crème"
       }
     ],
@@ -265,7 +265,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1007,
-        src: "/src/assets/images/prod_linen_blazer_1792324563858.jpg",
+        src: "/images/prod_linen_blazer_1792324563858.jpg",
         alt: "Veste tailleur déstructurée en lin et laine"
       }
     ],
@@ -304,7 +304,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1008,
-        src: "/src/assets/images/prod_cashmere_scarf_1792324565203.jpg",
+        src: "/images/prod_cashmere_scarf_1792324565203.jpg",
         alt: "Écharpe généreuse en cachemire peigné couleur crème"
       }
     ],
@@ -343,7 +343,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 1009,
-        src: "/src/assets/images/prod_suede_jacket_1792324564550.jpg",
+        src: "/images/prod_suede_jacket_1792324564550.jpg",
         alt: "Prototype blouson cuir velours"
       }
     ],

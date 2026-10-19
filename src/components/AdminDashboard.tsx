@@ -76,7 +76,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToStore, o
     material: '',
     origin: '',
     categories: [{ id: 1, name: 'Femme', slug: 'femme' }],
-    images: [{ id: 1, src: '/src/assets/images/prod_cashmere_overcoat_1792324545026.jpg', alt: '' }],
+    images: [{ id: 1, src: '/images/prod_cashmere_overcoat_1792324545026.jpg', alt: '' }],
     attributes: [
       { name: 'Taille', options: ['S', 'M', 'L'] },
       { name: 'Couleur', options: ['Noir', 'Crème'] }
@@ -477,7 +477,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToStore, o
       material: '100% Laine peignée',
       origin: 'Atelier de confection en Italie',
       categories: [{ id: 1, name: 'Femme', slug: 'femme' }],
-      images: [{ id: 1, src: '/src/assets/images/product_wool_coat_1792259932706.jpg', alt: 'Nouvelle pièce' }],
+      images: [{ id: 1, src: '/images/product_wool_coat_1792259932706.jpg', alt: 'Nouvelle pièce' }],
       attributes: [
         { name: 'Taille', options: ['36', '38', '40', '42'] },
         { name: 'Couleur', options: ['Noir', 'Crème'] }
@@ -1679,7 +1679,7 @@ STRIPE_WEBHOOK_SECRET="whsec_votre_signing_secret_ici"`}
                     ...productForm,
                     images: [{ id: 1, src: e.target.value, alt: productForm.name || '' }]
                   })}
-                  placeholder="/src/assets/images/... ou https://..."
+                  placeholder="/images/... ou https://..."
                   className="w-full bg-white border border-[#DDD7CC] px-3 py-2 text-xs focus:outline-hidden focus:border-[#141414]"
                 />
               </div>

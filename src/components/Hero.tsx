@@ -70,7 +70,7 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onOurStory }) => {
           <div className="lg:col-span-7 order-1 lg:order-2">
             <div className="relative aspect-[4/3] lg:aspect-[16/11] w-full overflow-hidden bg-[#E7E2D8]">
               <img
-                src="/src/assets/images/hero_boutique_interior_1792325142001.jpg"
+                src="/images/hero_boutique_interior_1792325142001.jpg"
                 alt="Intérieur de la boutique Maison ATELIER - Architecture épurée et vestiaire d'exception"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.02] transition-transform duration-700 hover:scale-[1.01]"

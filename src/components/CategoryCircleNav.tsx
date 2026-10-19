@@ -13,25 +13,25 @@ export const CategoryCircleNav: React.FC<CategoryCircleNavProps> = ({
     {
       label: 'Femme',
       value: 'femme',
-      image: '/src/assets/images/cat_femme_model_1792324523689.jpg',
+      image: '/images/cat_femme_model_1792324523689.jpg',
       alt: 'Collection Femme ATELIER'
     },
     {
       label: 'Homme',
       value: 'homme',
-      image: '/src/assets/images/cat_homme_model_1792324525142.jpg',
+      image: '/images/cat_homme_model_1792324525142.jpg',
       alt: 'Collection Homme ATELIER'
     },
     {
       label: 'Accessoires',
       value: 'accessoires',
-      image: '/src/assets/images/cat_accessoires_bag_1792324525828.jpg',
+      image: '/images/cat_accessoires_bag_1792324525828.jpg',
       alt: 'Maroquinerie & Accessoires ATELIER'
     },
     {
       label: 'Nouveautés',
       value: 'nouveautes',
-      image: '/src/assets/images/cat_nouveautes_fabric_1792324525877.jpg',
+      image: '/images/cat_nouveautes_fabric_1792324525877.jpg',
       alt: 'Nouveautés & Matières Nobles ATELIER'
     }
   ];
