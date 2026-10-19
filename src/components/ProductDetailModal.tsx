@@ -3,6 +3,7 @@ import { Product } from '../types';
 import { X, Check, Shield, Truck, RotateCcw, ChevronDown, ChevronUp, Ruler, CreditCard, Loader2, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/currency';
+import { createCheckoutSession } from '../utils/stripeCheckout';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -60,20 +61,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         ]
       };
 
-      const res = await fetch('/api/stripe/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Erreur lors de la redirection vers Stripe Checkout.');
-      }
-
-      if (data.url) {
-        window.location.href = data.url;
-      }
+      const data = await createCheckoutSession(payload);
+      window.location.href = data.url;
     } catch (err: any) {
       setStripeError(err.message || 'Échec d\'initialisation Stripe.');
       setIsStripeLoading(false);

@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import Stripe from 'stripe';
 import { INITIAL_PRODUCTS } from './src/data/seedProducts.ts';
 import { Product, Order, OrderStatus, AdminStats, WooCommerceSettings, DemoRequest } from './src/types/index.ts';
@@ -14,6 +14,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
+// On Vercel the app runs behind the Vercel proxy: trust the X-Forwarded-*
+// headers so that req.protocol / req.hostname expose the public URL
+// (https://atelier-sigma-pink.vercel.app) instead of the internal one.
+app.set('trust proxy', true);
+
 // Initialize Stripe in Test Mode
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || '';
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
@@ -23,6 +28,41 @@ if (stripe) {
   console.log('[Stripe] Mode Test initialisé avec clé secrète configurée.');
 } else {
   console.log('[Stripe] Mode Test prêt (Simulateur interactif actif en l\'absence de STRIPE_SECRET_KEY).');
+}
+
+// ==============================================================================
+// PUBLIC BASE URL (domaine déployé)
+// ==============================================================================
+// Résout l'URL publique du site (ex. https://atelier-sigma-pink.vercel.app) pour
+// construire les URLs de retour Stripe (success_url / cancel_url).
+// Ordre de priorité :
+//   1. en-têtes X-Forwarded-Host / X-Forwarded-Proto (mis en place par Vercel) ;
+//   2. en-tête Host de la requête ;
+//   3. en-tête Origin de la requête ;
+//   4. variable d'environnement APP_URL (fallback explicite) ;
+//   5. localhost (développement local).
+function resolvePublicBaseUrl(req: Request): string {
+  const firstHeaderValue = (value: string | string[] | undefined): string => {
+    if (Array.isArray(value)) return (value[0] || '').split(',')[0].trim();
+    return (value || '').split(',')[0].trim();
+  };
+
+  const forwardedProto = firstHeaderValue(req.headers['x-forwarded-proto']);
+  const forwardedHost = firstHeaderValue(req.headers['x-forwarded-host']);
+  const host = forwardedHost || req.get('host') || '';
+  const originHeader = firstHeaderValue(req.headers.origin);
+  const envUrl = (process.env.APP_URL || '').trim().replace(/\/+$/, '');
+
+  if (host) {
+    const isLocalHost = /^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/.test(host);
+    const protocol = forwardedProto || (isLocalHost ? req.protocol : 'https');
+    return `${protocol}://${host}`;
+  }
+
+  if (originHeader) return originHeader.replace(/\/+$/, '');
+  if (envUrl) return envUrl;
+
+  return 'http://localhost:3000';
 }
 
 // In-Memory Database Store (Synchronized with WooCommerce & local admin operations)
@@ -535,8 +575,8 @@ app.post('/api/stripe/create-checkout-session', async (req: Request, res: Respon
       return res.status(400).json({ error: 'Le panier est vide. Veuillez sélectionner au moins un article.' });
     }
 
-    // Origin detection for redirect URLs
-    const origin = req.headers.origin || `${req.protocol}://${req.get('host')}` || 'http://localhost:3000';
+    // Origin detection for redirect URLs (domaine public déployé)
+    const origin = resolvePublicBaseUrl(req);
 
     // Verify stock and compute subtotal
     let subtotal = 0;
@@ -1207,10 +1247,17 @@ app.post('/api/admin/woocommerce/sync', requireAdminAuth, async (req: Request, r
 // ==============================================================================
 
 async function startServer() {
+  // Sur Vercel les fichiers statiques sont servis par le CDN et l'API est
+  // exposée en Serverless Function : aucun serveur HTTP ne doit démarrer ici.
+  if (process.env.VERCEL) return;
+
   const isProd = process.env.NODE_ENV === 'production';
 
   if (!isProd) {
-    const { createServer: createViteServer } = await import('vite');
+    // Import dynamique non résolu statiquement : Vite n'est ainsi jamais
+    // embarqué dans le bundle de la Serverless Function Vercel.
+    const viteSpecifier = 'vite';
+    const { createServer: createViteServer } = await import(/* @vite-ignore */ viteSpecifier);
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
@@ -1231,7 +1278,35 @@ async function startServer() {
   });
 }
 
-startServer().catch(err => {
-  console.error('Failed to start server:', err);
-  process.exit(1);
-});
+/**
+ * L'application Express est partagée entre deux environnements :
+ *
+ *  - En local (`npm run dev` / `npm start`) ce fichier est exécuté
+ *    directement : le serveur HTTP démarre sur le port PORT et sert le
+ *    front Vite en middleware (mode développement) ou le dossier `dist/`
+ *    (mode production).
+ *
+ *  - Sur Vercel ce fichier est importé par la Serverless Function
+ *    `api/index.ts` : la plateforme invoque l'application Express avec
+ *    (req, res), il ne faut donc surtout PAS appeler `app.listen()`.
+ */
+const isDirectExecution = (() => {
+  try {
+    if (!process.argv[1]) return false;
+    return pathToFileURL(process.argv[1]).href === import.meta.url;
+  } catch {
+    return false;
+  }
+})();
+
+// Export nommé (et non default) : évite que Vercel détecte le projet comme une
+// application "Express" au niveau racine. La Function Vercel `api/index.ts`
+// expose l'application via `export default app`.
+export { app };
+
+if (isDirectExecution && !process.env.VERCEL) {
+  startServer().catch(err => {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  });
+}

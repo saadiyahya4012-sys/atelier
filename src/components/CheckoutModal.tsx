@@ -3,6 +3,7 @@ import { useCart } from '../context/CartContext';
 import { Order } from '../types';
 import { X, CheckCircle2, ShieldCheck, Truck, CreditCard, Building2, Wallet, ArrowLeft, Loader2 } from 'lucide-react';
 import { formatPrice } from '../utils/currency';
+import { createCheckoutSession } from '../utils/stripeCheckout';
 import { VisaLogo, MastercardLogo } from './icons/PaymentLogos';
 
 interface CheckoutModalProps {
@@ -88,23 +89,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           notes: formData.notes
         };
 
-        const res = await fetch('/api/stripe/create-checkout-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(stripePayload)
-        });
-
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || 'Erreur lors de l\'initialisation du paiement Stripe Test.');
-        }
+        const data = await createCheckoutSession(stripePayload);
 
         clearCart();
-
-        if (data.url) {
-          window.location.href = data.url;
-          return;
-        }
+        window.location.href = data.url;
+        return;
       }
 
       // Fallback standard order creation for BACS / COD

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { X, Trash2, ArrowRight, ShieldCheck, Tag, CreditCard, Loader2 } from 'lucide-react';
 import { formatPrice } from '../utils/currency';
+import { createCheckoutSession } from '../utils/stripeCheckout';
 
 interface CartDrawerProps {
   onProceedToCheckout: () => void;
@@ -45,21 +46,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onProceedToCheckout }) =
         }))
       };
 
-      const res = await fetch('/api/stripe/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Erreur lors de la redirection vers Stripe Checkout.');
-      }
+      const data = await createCheckoutSession(payload);
 
       clearCart();
-      if (data.url) {
-        window.location.href = data.url;
-      }
+      window.location.href = data.url;
     } catch (err: any) {
       setStripeError(err.message || 'Erreur Stripe');
       setIsStripeLoading(false);
